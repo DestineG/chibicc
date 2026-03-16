@@ -101,6 +101,7 @@ int scan(struct token *t) {
     // 处理特殊字符
     switch(c) {
     case EOF:
+        t->token = T_EOF;
         return 0;
     case '+':
         t->token = T_PLUS;
