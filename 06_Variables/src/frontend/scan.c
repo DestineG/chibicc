@@ -2,8 +2,8 @@
 
 #include <ctype.h>
 #include <string.h>
-#include "global.h"
-#include "token.h"
+
+#include "scan.h"
 
 /**
  * @brief 查找字符串 s 中字符 c 首次出现的位置
@@ -97,7 +97,7 @@ static int scanident(int c, char *buf, int lim) {
     int i = 0;
 
     // 扫描标识符部分
-    while(isalnum(c) || isdigit(c) || c == '_') {
+    while(isalpha(c) || isdigit(c) || c == '_') {
         // 检查标识符长度是否超过限制
         if(i == lim - 1) {
             printf("Identifier too long at line %d\n", Line);
@@ -111,12 +111,23 @@ static int scanident(int c, char *buf, int lim) {
 
     // 将最后一个读取的非字母数字字符放回 Putback 中
     putback(c);
+
     // 结束标识符字符串
     buf[i] = '\0';
+
     return i;
 }
+
 // TODO: 实现关键字识别
 static int keyword(char *s) {
+    switch(*s) {
+        case 'p':
+            if (strcmp(s, "print") == 0) return T_PRINT;
+            break;
+        case 'i':
+            if (strcmp(s, "int") == 0) return T_INT;
+            break;
+    }
     return 0;
 }
 
@@ -126,7 +137,7 @@ static int keyword(char *s) {
  * @return 1 成功扫描到 token, 0 到达文件末尾
  */
 int scan(struct token *t) {
-    int c;
+    int c, tokentype;
 
     // 跳过空白字符 | 制表符 | 换行符 | 回车符 | 换页符
     // 取到第一个非空白字符
@@ -149,12 +160,31 @@ int scan(struct token *t) {
     case '/':
         t->token = T_SLASH;
         break;
+    case ';':
+        t->token = T_SEMI;
+        break;
+    case '=':
+        t->token = T_EQUALS;
+        break;
     default:
+        // 处理数字
         if(isdigit(c)) {
             t->token = T_INTLIT;
             t->intvalue = scanint(c);
             break;
         }
+        // 处理标识符
+        else if(isalpha(c) || c == '_') {
+            scanident(c, Text, TEXTLEN);
+            if((tokentype = keyword(Text))) {
+                t->token = tokentype;
+                break;
+            }
+            // 未注册 keywords 标记为 identifier
+            t->token = T_IDENT;
+            break;
+        }
+        // 处理其他字符
         printf("Unrecognised character %c at line %d\n", c, Line);
         exit(1);
     }
