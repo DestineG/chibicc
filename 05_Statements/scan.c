@@ -87,6 +87,40 @@ static int scanint(int c) {
 }
 
 /**
+ * @brief 扫描标识符 token
+ * @param c 第一个字符
+ * @param buf 用于存储标识符的字符数组
+ * @param lim buf 数组的大小
+ * @return 扫描到的标识符的长度
+ */
+static int scanident(int c, char *buf, int lim) {
+    int i = 0;
+
+    // 扫描标识符部分
+    while(isalnum(c) || isdigit(c) || c == '_') {
+        // 检查标识符长度是否超过限制
+        if(i == lim - 1) {
+            printf("Identifier too long at line %d\n", Line);
+            exit(1);
+        }
+        else if (i < lim - 1) {
+            buf[i++] = c;
+        }
+        c = next();
+    }
+
+    // 将最后一个读取的非字母数字字符放回 Putback 中
+    putback(c);
+    // 结束标识符字符串
+    buf[i] = '\0';
+    return i;
+}
+// TODO: 实现关键字识别
+static int keyword(char *s) {
+    return 0;
+}
+
+/**
  * @brief 扫描 token
  * @param t 指向 token 结构体的指针
  * @return 1 成功扫描到 token, 0 到达文件末尾

@@ -3,7 +3,7 @@
 #ifndef CG_H
 #define CG_H
 
-#include "ast.h"
+#include "../midend/ast.h"
 
 void initreg(void);
 void free_reg(int reg);

@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "global.h"
+#include "../include/global.h"
 
-#include "ast.h"
+#include "../midend/ast.h"
 
 static int freereg[4];
 static char *reglist[4] = {"%r8", "%r9", "%r10", "%r11"};

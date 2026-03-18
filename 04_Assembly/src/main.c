@@ -1,15 +1,15 @@
-// main.c
+// 04_Assembly/main.c
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 #define extern_
-#include "global.h"
+#include "include/global.h"
 #undef extern_
 
-#include "ast.h"
-#include "cg.h"
+#include "midend/ast.h"
+#include "backend/cg.h"
 
 static void init() {
     Line = 1;
@@ -22,7 +22,7 @@ static void usage(char *prog) {
 }
 
 int main(int argc, char *argv[]) {
-    if(argc != 2) {
+    if(argc != 3) {
         usage(argv[0]);
     }
     init();
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     }
 
     // 打开输出文件
-    if((Outfile = fopen("out.s", "w")) == NULL) {
+    if((Outfile = fopen(argv[2], "w")) == NULL) {
         fprintf(stderr, "Can't open out.s: ");
         exit(1);
     }

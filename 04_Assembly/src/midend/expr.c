@@ -1,8 +1,10 @@
-// expr.c
+// 04_Assembly/src/midend/expr.c
 
-#include "global.h"
+#define extern_
+#include "../frontend/scan.h"
+#undef extern_
+
 #include "ast.h"
-#include "scan.h"
 
 /**
  * @brief 解析整数字面量
@@ -60,7 +62,7 @@ static int op_precedence(int tok_type) {
  * @return 表达式的 AST 节点
  */
 struct ASTnode *binexpr(int ptp) {
-    struct ASTnode *n, *left, *right;
+    struct ASTnode *left, *right;
     int nodetype;
 
     // 扫描左操作数 token
