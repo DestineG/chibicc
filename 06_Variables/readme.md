@@ -26,6 +26,7 @@ scan() 扫描第一个 token, statements() 根据 token 类型调用不同的解
 **int**:
 - 确认并消费 'int' 关键字
 - 注册全局变量到符号表
+- 生成汇编代码`format(".comm\t%s,8,8", varName)`, 分配内存空间
 - 确认并消费 ';' 分号
 
 **T_IDENT**:

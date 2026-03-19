@@ -1,0 +1,39 @@
+// cgen.h
+
+#ifndef CG_H
+#define CG_H
+
+#include <stdio.h>
+
+#ifndef extern_
+    #define extern_ extern
+#endif
+
+extern_ FILE *Outfile;
+
+void show_regStatus();
+void initreg(void);
+void free_reg(int reg);
+void cgpreamble(void);
+void cgpostamble(void);
+
+int cgloadint(int val);
+int cgloadglob(char *identifier);
+int cgstorglob(int r, char *identifier);
+void cgglobsym(char *sym);
+
+int cgadd(int reg1, int reg2);
+int cgsub(int reg1, int reg2);
+int cgmul(int reg1, int reg2);
+int cgdiv(int reg1, int reg2);
+
+void cgprintint(int reg);
+
+int cgequal(int reg1, int reg2);
+int cgnotequal(int reg1, int reg2);
+int cglessthan(int reg1, int reg2);
+int cggreaterthan(int reg1, int reg2);
+int cglessequal(int reg1, int reg2);
+int cggreaterequal(int reg1, int reg2);
+
+#endif
