@@ -1,0 +1,17 @@
+{ 
+  int a;
+  int b;
+  a = 10;
+  b = 20;
+  if(a==10) {
+    print 12 * 3;
+  }
+  if(b==10) {
+    print 12 * 3;
+  }
+  else {
+    print 12 * 6;
+    print 18 - 2 * 4;
+  }
+  print 1 + 2 + 9 - 5/2 + 3*5;
+}
